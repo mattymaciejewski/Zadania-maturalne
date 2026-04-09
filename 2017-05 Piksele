@@ -1,0 +1,85 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+using namespace std;
+int main() {
+    const int N = 200;
+    const int M = 320;
+    int tab[N][M];
+    ifstream plik("dane.txt");
+    ofstream wyniki("wyniki.txt");
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < M; j++) {
+            plik >> tab[i][j];
+        }
+    }
+    wyniki << "ZADANIE 1" << endl;
+    int najwieksza = 0;
+    int najmniejsza = 2000000;
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < M; j++) {
+            if(tab[i][j] > najwieksza) {
+                najwieksza = tab[i][j];
+            }
+            if(tab[i][j] < najmniejsza) {
+                najmniejsza = tab[i][j];
+            }
+        }
+    }
+    wyniki << "Najwieksza: " << najwieksza << " Najmniejsza: " << najmniejsza << endl;
+    wyniki << "ZADANIE 2 " << endl;
+    int ileWierszyUsunac = 0;
+    for(int i = 0; i < N; i++) {
+        bool symetryczny = true;
+        for(int j = 0; j < M/2; j++) {
+            if(tab[i][j] != tab[i][M - j - 1]) {
+                symetryczny = false;
+                break;
+            }
+        }
+        if(!symetryczny) {
+            ileWierszyUsunac++;
+        }
+    }
+    wyniki << ileWierszyUsunac << endl;
+    wyniki << "ZADANIE 3" << endl;
+    int ileKontrastujacych = 0;
+    for(int i = 0; i < N; i++) {
+        for(int j = 0; j < M; j++) {
+            bool kontrast = false;
+            if(i > 0 and fabs(tab[i][j] - tab[i-1][j]) > 128) {
+                kontrast = true;
+            }
+            if(i < N-1 and fabs(tab[i][j] - tab[i+1][j]) > 128) {
+                kontrast = true;
+            }
+            if(j > 0 and fabs(tab[i][j] - tab[i][j-1]) > 128) {
+                kontrast = true;
+            }
+            if(j < M -1 and fabs(tab[i][j] - tab[i][j+1]) > 128) {
+                kontrast = true;
+            }
+            if(kontrast) {
+            ileKontrastujacych++;
+        }
+        }
+    }
+    wyniki << ileKontrastujacych << endl;
+    wyniki << "ZADANIE 4" << endl;
+    int najdluzszyCiag = 1;
+    for(int j = 0; j < M; j++) {
+        int najdluzszaSeria = 1;
+        for(int i = 1; i < N; i++) {
+            if(tab[i][j] == tab[i-1][j]) {
+                najdluzszaSeria++;
+            } else {
+                najdluzszaSeria = 1;
+            }
+            if(najdluzszaSeria > najdluzszyCiag) {
+                najdluzszyCiag = najdluzszaSeria;
+            }
+        }
+    }
+    wyniki << najdluzszyCiag << endl;
+}
