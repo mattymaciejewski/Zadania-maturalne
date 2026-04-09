@@ -1,0 +1,80 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <fstream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+int main() {
+    const int N = 5000;
+    ifstream plik("dane.txt");
+    ofstream wyniki("wyniki4.txt");
+    int tab[N];
+    int licznik = 0;
+    for(int i = 0; i < N; i++) {
+        plik >> tab[i];
+    }
+    wyniki << "ZADANIE 1" << endl;
+    for(int i = 0; i < N; i++) {
+        string tekst = to_string(tab[i]);
+        int ostatnia = tekst.length();
+        if(tekst[0] == tekst[ostatnia-1]) {   
+            licznik++;
+        }
+    }
+    wyniki << licznik << endl;
+    wyniki << "ZADANIE 2" << endl;
+    vector <string> dziesietne;
+    int licznikB = 0;
+    for(int i = 0; i < N; i++) {
+        int osemkowaLiczba = tab[i];
+        string osemkowa = to_string(tab[i]);
+        int dziesietna = 0;
+        int dlugosc = osemkowa.length();
+        for(int j = 0; j < dlugosc; j++) {
+            int ostatnia = osemkowaLiczba%10;
+            dziesietna += ostatnia * pow(8,j);
+            osemkowaLiczba /= 10;
+        }
+        string dziesietnaDoPorownania = to_string(dziesietna);
+        dziesietne.push_back(dziesietnaDoPorownania);
+        
+    }
+    for(int i = 0; i < dziesietne.size(); i++) {
+        string dziesietna = dziesietne[i];
+        int dlugosc = dziesietne[i].length();
+        if(dziesietna[0] == dziesietna[dlugosc-1]) {
+            licznikB++;
+        }
+    }
+    wyniki << licznikB << endl;
+    wyniki << "ZADANIE 3" << endl;
+    int licznikC = 0;
+    int najmniejsza = 2000000;
+    int najwieksza = 0;
+    for(int i = 0; i < N; i++) {
+        string liczba = to_string(tab[i]);
+        int dlugosc = liczba.length();
+        bool warunek = true;
+        for(int j = 1; j < dlugosc; j++) {
+            if(liczba[j]<liczba[j-1]) {
+                warunek = false;
+                break;
+            }
+        }
+        if(warunek) {
+            licznikC++;
+            int liczbaSprawdzana = tab[i];
+            if(liczbaSprawdzana > najwieksza) {
+                najwieksza = tab[i];
+            }
+            if(liczbaSprawdzana < najmniejsza) {
+                najmniejsza = tab[i];
+            }
+        }
+    }
+    wyniki << licznikC << endl;
+    wyniki << "Najmniejsza = " << najmniejsza << " Najwieksza: " << najwieksza << endl; 
+    wyniki.close();
+    return 0;
+}
