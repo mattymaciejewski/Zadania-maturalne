@@ -1,0 +1,63 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cmath>
+using namespace std;
+int main() {
+    const int N = 1000;
+    ifstream plik("liczby.txt");
+    ofstream wyniki("wyniki.txt");
+    string tab[N];
+    for(int i = 0; i < N; i++) {
+        plik >> tab[i];
+    }
+    wyniki << "ZADANIE 1" << endl;
+    int ileLiczb = 0;
+    for(int i = 0; i < N; i++) {
+        string liczba = tab[i];
+        int dlugosc = liczba.length();
+        int ileZer = 0;
+        int ileJedynek = 0;
+        for(int j = 0; j < dlugosc; j++) {
+            if(liczba[j] == '0') {
+                ileZer++;
+            } else if(liczba[j] == '1') {
+                ileJedynek++;
+            }
+        }
+        if(ileZer>ileJedynek) {
+            ileLiczb++;
+        }
+    }
+    wyniki << ileLiczb << endl;
+    wyniki << "ZADANIE 2 " << endl;
+    int podzielnePrzez2 = 0;
+    int podzielnePrzez8 = 0;
+    for(int i = 0; i < N; i++) {
+        int dlugosc = tab[i].length();
+        if(tab[i][dlugosc-1] == '0') {
+            podzielnePrzez2++;
+        }
+        if(dlugosc >= 3 and tab[i][dlugosc-1] == '0' and tab[i][dlugosc-2] == '0' and tab[i][dlugosc-3] == '0') {
+            podzielnePrzez8++;
+        }
+    }
+    wyniki << "Podzielne przez 2: " << podzielnePrzez2 << " Podzielne przez 8: " << podzielnePrzez8 << endl;
+    wyniki << "ZADANIE 3" << endl;
+    int wierszMin = 0;
+    int wierszMax = 0;
+    string najwiekszaBin = tab[0];
+    string najmniejszaBin = tab[0];
+    for(int i = 0; i < N; i++) {
+        if(tab[i].length() < najmniejszaBin.length() or tab[i].length() == najmniejszaBin.length() and tab[i] < najmniejszaBin) {
+            najmniejszaBin = tab[i];
+            wierszMin = i+1;
+        }
+        if(tab[i].length() > najwiekszaBin.length() or tab[i].length() == najwiekszaBin.length() and tab[i] > najwiekszaBin) {
+            najwiekszaBin = tab[i];
+            wierszMax = i+1;
+        }
+    }
+    wyniki << "Najmniejsza: " << wierszMin << " Najwieksza: " << wierszMax << endl;
+    return 0;
+}
