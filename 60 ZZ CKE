@@ -1,0 +1,73 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int nwd (int a, int b) {
+    while(b!=0) {
+        int temp = b;
+        b = a%b;
+        a = temp;
+    }
+    return a;
+}
+int main() {
+    const int N = 1000;
+    int tab[N];
+    ifstream plik("liczby.txt");
+    ofstream wyniki("wyniki.txt");
+    for(int i = 0; i < N; i++) {
+        plik >> tab[i];
+    }
+    wyniki << "1" << endl;
+    int ileMniejszychOd1000 = 0;
+    vector <int> mniejszeOd1000;
+    for(int i = 0; i < N; i++) {
+        int liczba = tab[i];
+        if(liczba < 1000) {
+            ileMniejszychOd1000++;
+            mniejszeOd1000.push_back(liczba);
+        }
+    }
+    int dlugoscVec = mniejszeOd1000.size();
+    wyniki << ileMniejszychOd1000 << endl;
+    wyniki << mniejszeOd1000[dlugoscVec - 1] << " " << mniejszeOd1000[dlugoscVec - 2] << endl; 
+    wyniki << "2" << endl;
+    for(int i = 0; i < N; i++) {
+        int liczba = tab[i];
+        int liczbaTemp = liczba;
+        vector <int> dzielniki;
+        for(int j = 1; j*j <= liczba; j++) {
+            if(liczbaTemp%j == 0) {
+                dzielniki.push_back(j);
+            if(j != liczba/j) {
+                dzielniki.push_back(liczba/j);
+            }
+            }
+        }
+        if(dzielniki.size() == 18) {
+            sort(dzielniki.begin(), dzielniki.end());
+            wyniki << liczba << " ";
+            for(int k = 0; k < dzielniki.size(); k++) {
+                wyniki << dzielniki[k] << " ";
+            }
+            wyniki << endl;
+        }
+    }
+    wyniki << "3" << endl;
+    int najwieksza = 1;
+    for(int i = 0; i < N; i++) {
+        bool warunek = true;
+        for(int j = 0; j < N; j++) {
+            if(i!=j) {
+                if(nwd(tab[i], tab[j]) > 1) {
+                    warunek = false;
+                }
+            }
+        }
+        if(warunek and tab[i] > najwieksza) {
+            najwieksza = tab[i];
+        }
+    }
+    wyniki << najwieksza << endl;
+}
