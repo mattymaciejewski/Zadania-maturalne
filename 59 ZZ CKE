@@ -1,0 +1,127 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+int main() {
+    const int N = 1000;
+    int tab[N];
+    ifstream plik("liczby.txt");
+    ofstream wyniki("wyniki.txt");
+    for(int i = 0; i < N; i++) {
+        plik >> tab[i];
+    }
+    wyniki << "1" << endl; //112
+    int conajmniej3RozneDzielniki = 0;
+    for(int i = 0; i < N; i++) {
+        int liczba = tab[i];
+        int ileRoznychDzielnikow = 0;
+        if(liczba % 2 == 0) {
+            continue;
+        }
+        for(int j = 3; j*j <= liczba; j++) {
+            if(liczba%j == 0 and j%2!=0) {
+                ileRoznychDzielnikow++;
+            }
+            while(liczba%j==0) {
+                liczba/=j;
+            }
+        }
+        if(liczba > 1 and liczba % 2 != 0) {
+            ileRoznychDzielnikow++;
+        }
+        if(ileRoznychDzielnikow == 3) {
+            conajmniej3RozneDzielniki++;
+        }
+    }
+    wyniki << conajmniej3RozneDzielniki << endl;
+    wyniki << "2" << endl;
+    int sumaPalindrom = 0;
+    for(int i = 0; i < N; i++) {
+        int liczba = tab[i];
+        int liczbaDoRozkladu = liczba;
+        int odwrocona = 0;
+        while(liczbaDoRozkladu>0) {
+            odwrocona = odwrocona*10+liczbaDoRozkladu%10;
+            liczbaDoRozkladu /= 10;
+        }
+        int suma = liczba + odwrocona;
+        string palindrom = to_string(suma);
+        bool czyPalindrom = true;
+        int dlugosc = palindrom.length();
+        for(int j = 0; j < dlugosc/2; j++) {
+            if(palindrom[j] != palindrom[dlugosc - j - 1]) {
+                czyPalindrom = false;
+                break;
+            }
+        }
+        if(czyPalindrom) {
+            sumaPalindrom++;
+        }
+    }
+    wyniki << sumaPalindrom << endl;
+    wyniki << "3" << endl;
+    int moc1 = 0;
+    int moc2 = 0;
+    int moc3 = 0;
+    int moc4 = 0;
+    int moc5 = 0;
+    int moc6 = 0;
+    int moc7 = 0;
+    int moc8 = 0;
+    int najwiekszaMoc1 = 0;
+    int najmniejszaMoc1 = 2000000;
+    for(int i = 0; i < N; i++) {
+        int liczba = tab[i];
+        int liczbaTemp = liczba;
+        int mocLiczby = 0;
+        int moc = 0;
+        while(liczbaTemp >= 10) {
+            int iloczynCyfr = 1;
+            while(liczbaTemp>0) {
+                int ostatnia = liczbaTemp%10;
+                iloczynCyfr *= ostatnia;
+                liczbaTemp /= 10;
+            }
+            moc++;
+            liczbaTemp = iloczynCyfr;
+        }
+        if(moc == 1) {
+            if(liczba > najwiekszaMoc1) {
+                najwiekszaMoc1 = liczba;
+            }
+            if(liczba < najmniejszaMoc1) {
+                najmniejszaMoc1 = liczba;
+            }
+            moc1++;
+        }
+        if(moc == 2) {
+            moc2++;
+        }
+        if(moc == 3) {
+            moc3++;
+        }
+        if(moc == 4) {
+            moc4++;
+        }
+        if(moc == 5) {
+            moc5++;
+        }
+        if(moc == 6) {
+            moc6++;
+        }
+        if(moc == 7) {
+            moc7++;
+        }
+        if(moc == 8) {
+            moc8++;
+        }
+    }
+    wyniki << "Moc1: " << moc1 << " Najwieksza o mocy 1: " << najwiekszaMoc1 << " Najmniejsza o mocy 1: " << najmniejszaMoc1 << endl;
+    wyniki << "Moc2: " << moc2 << endl;
+    wyniki << "Moc3: " << moc3 << endl;
+    wyniki << "Moc4: " << moc4 << endl;
+    wyniki << "Moc5: " << moc5 << endl;
+    wyniki << "Moc6: " << moc6 << endl;
+    wyniki << "Moc7: " << moc7 << endl;
+    wyniki << "Moc8: " << moc8 << endl;
+    return 0;
+}
