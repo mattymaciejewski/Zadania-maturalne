@@ -1,0 +1,64 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+int main() {
+    const int N = 100;
+    const int M = 1000;
+    const int DL = 1000;
+    int tab[N][M];
+    int dlugosci[DL];
+    int ile;
+    int nr = 0;
+    ifstream plik("ciagi.txt");
+    ofstream wynik1("wynik1.txt");
+    ofstream wynik2("wynik2.txt");
+    ofstream wynik3("wynik3.txt");
+    while(plik >> ile) {
+        dlugosci[nr] = ile;
+        for(int i = 0; i < ile; i++) {
+            plik >> tab[nr][i];
+        }
+        nr++;
+    }
+    wynik1 << "1" << endl;
+    int ileArytmetycznych = 0;
+    int maxRoznica = 0;
+    for(int i = 0; i < N; i++) {
+        int roznica = tab[i][1] - tab[i][0];
+        bool arytmetyczny = true;
+        for(int j = 2; j < dlugosci[i]; j++) {
+            if(tab[i][j] - tab[i][j-1] != roznica) {
+                arytmetyczny = false;
+                break;
+            }
+        }
+        if(arytmetyczny) {
+            ileArytmetycznych++;
+            if(roznica>maxRoznica) {
+                maxRoznica = roznica;
+            }
+        }
+    }
+    wynik1 << ileArytmetycznych << " " << maxRoznica << endl;
+    vector <int> szesciany;
+    for(int i = 0; i < N; i++) {
+        int maxSzescian = -1;
+        for(int j = 0; j < dlugosci[i]; j++) {
+            double liczba = tab[i][j];
+            double pierwiastek = round(cbrt(liczba));
+            if(pierwiastek*pierwiastek*pierwiastek == liczba) {
+                if(liczba > maxSzescian) {
+                    maxSzescian = liczba;
+                }
+            }
+        }
+        if(maxSzescian != -1) {
+        szesciany.push_back(maxSzescian);
+        }
+    }
+    for(int i = 0; i < szesciany.size(); i++) {
+        wynik2 << szesciany[i] << endl;
+    }
