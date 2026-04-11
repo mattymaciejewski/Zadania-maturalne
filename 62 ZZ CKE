@@ -15,6 +15,17 @@ int osemkowaNaDziesietna(int a) {
     }
     return dziesietna;
 }
+int dziesietnaNaOsemkowa(int a) {
+    int potega = 1;
+    int dziesietna = 0;
+    while(a>0) {
+        int reszta = a%8;
+        dziesietna += reszta*potega;
+        potega *= 10;
+        a/=8;
+    }
+    return dziesietna;
+}
 int main() {
     const int N = 1000;
     int osemkowe[N];
@@ -71,4 +82,26 @@ int main() {
         }
     }
     wyniki << takieSame << " " << wieksze << endl;
+    wyniki << "4" << endl;
+    int szostkiWDz = 0;
+    int szostkiWOs = 0;
+    for(int i = 0; i < N; i++) {
+        string dz = to_string(dziesietne[i]);
+        int dlugosc = dz.length();
+        for(int j = 0; j < dlugosc; j++) {
+            if(dz[j] == '6') {
+                szostkiWDz++;
+            }
+        }
+    }
+    for(int i = 0; i < N; i++) {
+        string os = to_string(dziesietnaNaOsemkowa(dziesietne[i]));
+        int dlugosc = os.length();
+        for(int j = 0; j < dlugosc; j++) {
+            if(os[j] == '6') {
+                szostkiWOs++;
+            }
+        }
+    }
+    wyniki << szostkiWDz << " " << szostkiWOs << endl;
 }
